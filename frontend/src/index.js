@@ -1,17 +1,17 @@
 var socket = io();
 
-socket.on('connect', () => {
-    console.log('Connected to server');
-
-    /* once connected, emit an event sending a message. */
-    /* Grab message from form and send it to server.  */
+function broadcastMessage() {
     socket.emit('createMessage', {
 	from: "Ray",
 	to: 'bob@ladida.com',
 	text: 'Hey, bob!'
     });
-});
+};
 
+/* 'connect' is a default event that gets send to me once I'm connected to server */
+socket.on('connect', () => {
+    console.log('Connected to server');
+});
 socket.on('disconnect', () => {
     console.log('Disconnected from server');
 });

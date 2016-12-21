@@ -22,14 +22,6 @@ app.use(express.static(frontendFilesPath));
 io.on('connection', (socket) => {
     console.log('New user connected');
 
-    /* emit event with data */
-    /* Sending a message to all clients */
-    socket.emit('newMessage', {
-	from: 'ray@site.com',
-	text: 'hello!',
-	createdAt: 123123
-    });
-
     /* listening to the event. Receivemessages from user. */
     /* once client sends me a message, I save it. */
     socket.on('createMessage', (message) => {
