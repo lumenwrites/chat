@@ -5,7 +5,8 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha backend/**/*.test.js",
+    "test-watch": "nodemon --exec 'npm test'"
   },
   "engines": {
     "node": "6.2.2"
@@ -15,5 +16,10 @@
   "dependencies": {
     "express": "^4.14.0",
     "socket.io": "^1.7.2"
+  },
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0"
   }
 }

@@ -5,6 +5,7 @@ const frontendFilesPath = path.join(__dirname, '../frontend');
 const socketIO = require('socket.io');
 const http = require('http');
 
+const {generateMessage} = require('./utils/message');
 
 /* Create express app */
 var express = require('express');
@@ -24,21 +25,13 @@ io.on('connection', (socket) => {
 
 
     /* Send a welcome message to the user who just connected */
-    socket.emit('newMessage', {
-	from: "Admin",
-	text: "Welcome to our chat!",
-	createdAt: new Date().getTime()	    
-    });
+    socket.emit('newMessage', generateMessage("Admin", "Welcome to our chat!"));
 
     /* Broadcast a message telling that user has connected to everyone else */
     /* Broadcasting means emitting event to everybody
        except for the user who sent it. except for this socket. */
-    socket.broadcast.emit('newMessage', {
-	from: "Admin",
-	text: "New user has joined!",
-	createdAt: new Date().getTime()
-    });
-    
+    socket.broadcast.emit('newMessage', generateMessage("Admin", "New user joined!"));
+
     /* listening to the event. Receivemessages from user. */
     /* once client sends me a message, I save it. */
     socket.on('createMessage', (message) => {
@@ -47,11 +40,7 @@ io.on('connection', (socket) => {
 	/* Send out the received message to all the users. */
 	/* socket.emit emits a message to only one connection */
 	/* io.emit emits message to all the connections */
-	io.emit('newMessage', {
-	    from: message.from,
-	    text: message.text,
-	    createdAt: new Date().getTime()	    
-	});
+	io.emit('newMessage', generateMessage(message.from, message.text));
     });
 
     /* Disconnect */
