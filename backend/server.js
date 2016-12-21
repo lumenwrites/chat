@@ -34,9 +34,10 @@ io.on('connection', (socket) => {
 
     /* listening to the event. Receivemessages from user. */
     /* once client sends me a message, I save it. */
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
 	console.log('Create message: ', message);
-
+	/* Ackdnowledgement. */
+	callback('Server has received the message.');
 	/* Send out the received message to all the users. */
 	/* socket.emit emits a message to only one connection */
 	/* io.emit emits message to all the connections */
