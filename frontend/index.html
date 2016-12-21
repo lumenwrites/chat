@@ -3,16 +3,38 @@
 
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="/styles/vendor/bootstrap-yeti.min.css">
+  <link rel="stylesheet" href="/styles/style.css">      
 </head>
 
 <body>
 
-  <div id="messages">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>hackerchat</h4>
   </div>
-  <form id="message-form">
-    <input name="message" type="text" placeholder="Enter your message..."/>
-    <button>Send</button>
-  </form>
+  <!-- Chat -->
+  <div class="chat">
+    <!-- Header -->
+    <div class="header">
+      #main
+    </div>
+    
+    <!-- Messages -->
+    <div class="messages" id="messages">
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <!-- Message Form -->
+      <form id="message-form">
+	<textarea name="message" type="text" placeholder="Message"></textarea>
+	<button class="button">Post</button>
+      </form>
+    </div>
+    
+  </div> <!-- End .chat -->
+
   
   <script src="/socket.io/socket.io.js"></script>
   <script src="/src/vendor/jquery-3.1.1.min.js"></script>  

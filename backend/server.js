@@ -1,6 +1,3 @@
-/* Set path to frontend files */
-const path = require('path');
-const frontendFilesPath = path.join(__dirname, '../frontend');
 
 const socketIO = require('socket.io');
 const http = require('http');
@@ -17,6 +14,8 @@ var server = http.createServer(app);
 var io = socketIO(server);
 
 /* Configure middleware to serve frontend files */
+const path = require('path');
+const frontendFilesPath = path.join(__dirname, '../frontend');
 app.use(express.static(frontendFilesPath));
 
 

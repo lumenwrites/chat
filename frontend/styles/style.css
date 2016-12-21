@@ -1,0 +1,78 @@
+/* Main elements */
+* {
+    color: #9ea8ab;
+}
+
+html,body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background: #212226;
+}
+
+input {
+}
+
+button {
+    background: #2f3333;
+    border: none;
+    color: white;
+}
+
+
+/* Sidebar */
+.sidebar {
+    background: #19191f;
+    height:100%;
+    width:200px;
+    float:left;
+    padding: 10px 20px;
+}
+
+/* Header */
+.header {
+    background: #2e3035;
+    padding: 20px;
+}
+
+/* Chat */
+.chat {
+    float:left;
+    width: calc(100% - 200px);
+}
+
+.messages {
+    padding: 20px;
+}
+
+/* Message Form */
+.footer {
+    padding: 20px;
+
+    position:fixed;
+    right:0px;
+    bottom:0px;
+    height:80px;
+    width:calc(100% - 200px);
+}
+textarea {
+    resize: none;
+    background: #121217;
+    color: #9ea8ab;
+    border: none;
+
+
+    width: calc(100% - 80px);
+    float: left;
+    height: 41px;
+    padding:10px;
+}
+textarea::-webkit-scrollbar {
+   display: none;
+}
+
+.button {
+    padding: 10px 20px;
+}
+
+
