@@ -22,14 +22,23 @@ app.use(express.static(frontendFilesPath));
 io.on('connection', (socket) => {
     console.log('New user connected');
 
-    /* emit event with data */
-    /* Sending a message to all clients */
+
+    /* Send a welcome message to the user who just connected */
     socket.emit('newMessage', {
-	from: 'ray@site.com',
-	text: 'hello!',
-	createdAt: 123123
+	from: "Admin",
+	text: "Welcome to our chat!",
+	createdAt: new Date().getTime()	    
     });
 
+    /* Broadcast a message telling that user has connected to everyone else */
+    /* Broadcasting means emitting event to everybody
+       except for the user who sent it. except for this socket. */
+    socket.broadcast.emit('newMessage', {
+	from: "Admin",
+	text: "New user has joined!",
+	createdAt: new Date().getTime()
+    });
+    
     /* listening to the event. Receivemessages from user. */
     /* once client sends me a message, I save it. */
     socket.on('createMessage', (message) => {
@@ -41,7 +50,7 @@ io.on('connection', (socket) => {
 	io.emit('newMessage', {
 	    from: message.from,
 	    text: message.text,
-	    createdAt: 123123
+	    createdAt: new Date().getTime()	    
 	});
     });
 
