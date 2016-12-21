@@ -26,7 +26,7 @@ socket.on('newMessage', (message) => {
     console.log('Message coming in');
     console.log(message);
     var msg = $('<p></p>');
-    msg.text(`${message.from}:${message.text}`);
+    msg.text(`${message.from}: ${message.text}`);
     $("#messages").append(msg);
 });
 
