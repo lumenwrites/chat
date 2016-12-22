@@ -4,8 +4,8 @@
   "description": "",
   "main": "backend/server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "test": "mocha backend/**/*.test.js",
+    "start": "node server.js",
+    "test": "mocha **/*.test.js",
     "test-watch": "nodemon --exec 'npm test'"
   },
   "engines": {
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.0",
+    "moment": "^2.17.1",
     "socket.io": "^1.7.2"
   },
   "devDependencies": {

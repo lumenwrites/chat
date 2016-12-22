@@ -13,7 +13,7 @@ var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
 
-/* Configure middleware to serve frontend files */
+/* Configure middleware to serve frontend static files */
 const path = require('path');
 const frontendFilesPath = path.join(__dirname, '../frontend');
 app.use(express.static(frontendFilesPath));
@@ -52,7 +52,7 @@ io.on('connection', (socket) => {
 
 
 
-/* Set port for heroku. Use 3000 by default. */
+/* Set port with PORT environment variable. Or use 3000 by default. */
 const port = process.env.PORT || 3000;
 /* Start server */
 server.listen(port, () => {
