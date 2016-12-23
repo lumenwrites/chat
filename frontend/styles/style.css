@@ -45,6 +45,13 @@ button {
     padding: 20px;
 }
 
+hr {
+    border: solid #1a1c1c;
+    border-width: 1px 0 0;
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
 /* Message Form */
 .footer {
     background: #212226;

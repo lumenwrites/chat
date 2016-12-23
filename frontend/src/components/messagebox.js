@@ -6,7 +6,9 @@ export default class MessageBox extends Component {
 
     sendMessage(event) {
 	event.preventDefault();
+	/* Socket is passed here as props from chat.js */
 	const socket = this.props.socket;
+	/* Emit an event telling server to create message */
 	socket.emit(`client:createMessage`, {
 	    from: 'User',
 	    text: ReactDOM.findDOMNode(this.refs.message).value
