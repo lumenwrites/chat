@@ -12,12 +12,14 @@ export default class MessageBox extends Component {
 	    from: this.props.username,
 	    text: ReactDOM.findDOMNode(this.refs.message).value
 	});
+	this.refs.message.value="";	
     }
 
 
     join(event) {
 	event.preventDefault();
 	var username = ReactDOM.findDOMNode(this.refs.username).value;
+	this.refs.username.value="";	
 	
 	browserHistory.push('/?username=' + username);
     }
