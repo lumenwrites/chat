@@ -60,12 +60,13 @@ export default class Chat extends Component {
 	    );
 	};
 	return messages.map((message) => {
-	    var formattedDate = moment(message.createdAt).format('YYYY-MM-DD');
+	    var formattedDate = moment(message.createdAt).fromNow();
+	    /* .format('YYYY-MM-DD')*/
 	    return (
 		<div key={message.createdAt}>
+		    <span className="right">{formattedDate}</span>		    
+		    <b> {message.from} </b> <br/>
 		    {message.text}
-		    <br/>
-		    {formattedDate}
 		    <hr/>
 		</div>
 	    )
@@ -73,13 +74,15 @@ export default class Chat extends Component {
     }
 
     render() {
+	var username = this.props.location.query.username;
+
 	return (
 	    <div className="chat">
 		<Header />
 		<div className="messages">
 		    { this.renderMessages() }
 		</div>		    
-		<MessageBox socket = { socket }/>
+		<MessageBox socket = { socket } username={username}/>
 	    </div>	    
 	);
     }

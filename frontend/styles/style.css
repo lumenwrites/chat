@@ -20,6 +20,10 @@ button {
 }
 
 
+/* Helpers */
+.right {
+    float:right;
+}
 /* Sidebar */
 .sidebar {
     background: #19191f;
