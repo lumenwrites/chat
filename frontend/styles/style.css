@@ -43,10 +43,16 @@ button {
 .chat {
     float:left;
     width: calc(100% - 200px);
+    height: 100%;        
 }
 
 .messages {
     padding: 20px;
+    overflow: scroll;
+    height: calc(100% - 140px);    
+}
+.messages::-webkit-scrollbar {
+   display: none;
 }
 
 hr {

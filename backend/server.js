@@ -26,6 +26,7 @@ io.on('connection', (socket) => {
     /* Send a welcome message to the user who just connected */
     socket.emit('server:newMessage', generateMessage("Admin", "Welcome to our chat!!"));
 
+
     /* Broadcast a message telling that user has connected to everyone else */
     /* Broadcasting means emitting event to everybody
        except for the user who sent it. except for this socket. */

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { PageHeader, Panel, Label } from 'react-bootstrap';
@@ -46,10 +47,22 @@ export default class Chat extends Component {
 	    });
 	    console.log(">>>> src/components/chat.js:");
 	    console.log('Message received from server and added to state', data);
+	    this.scrollToBottom();
 	})
     }
 
-
+    scrollToBottom() {
+	var messages = ReactDOM.findDOMNode(this.refs.messages);
+	var clientHeight = messages.clientHeight;
+	var scrollTop = messages.scrollTop;
+	var scrollHeight = messages.scrollHeight;	
+	var messageHeight = 43;
+	if (clientHeight + scrollTop + messageHeight + messageHeight >= scrollHeight) {
+	    console.log('should scroll');
+	    messages.scrollTop = scrollHeight;
+	}
+    };
+    
     renderMessages() {
 	const messages = this.state.messages;
 	console.log(">>>> src/components/chat.js:");
@@ -79,7 +92,7 @@ export default class Chat extends Component {
 	return (
 	    <div className="chat">
 		<Header />
-		<div className="messages">
+		<div className="messages" ref="messages">
 		    { this.renderMessages() }
 		</div>		    
 		<MessageBox socket = { socket } username={username}/>
