@@ -18,10 +18,13 @@ export default class MessageBox extends Component {
 
     join(event) {
 	event.preventDefault();
+	/* Take username from the text field */
 	var username = ReactDOM.findDOMNode(this.refs.username).value;
 	this.refs.username.value="";	
 	
-	browserHistory.push('/?username=' + username);
+	/* browserHistory.push('/?username=' + username);*/
+
+	this.props.setUsername(username);
     }
     
     render() {

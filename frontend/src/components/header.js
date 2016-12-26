@@ -8,14 +8,10 @@ import { IndexLinkContainer, LinkContainer } from 'react-router-bootstrap';
 export default class Header extends Component {
     render() {
 	return (
-	    <div>
-		<Navbar className="header">
-			    <Link to="/">
-				#mainchannel
-			    </Link>
-		</Navbar>
-		
-
+	    <div className="header">
+		<Link to="/">
+		    #mainchannel
+		</Link>
 	    </div>
 	);
     }

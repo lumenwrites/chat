@@ -3,7 +3,7 @@ import {Route, IndexRoute} from 'react-router';
 
 import App from './components/app';
 
-import Chat from './components/chat';
+/* import Chat from './components/chat';*/
 /* import PostList from './components/post_list';*/
 
 /* import About from './components/about';*/
@@ -11,8 +11,7 @@ import Chat from './components/chat';
 
 export default (
     <Route path="/" component={App}>
-	<IndexRoute component={Chat} />
-	<Route path="chat" component={Chat} />	
+	<IndexRoute component={App} />
     </Route>
 )
 

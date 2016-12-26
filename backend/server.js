@@ -3,6 +3,8 @@ const socketIO = require('socket.io');
 const http = require('http');
 
 const {generateMessage} = require('./utils/message');
+const {Users} = require('./users');
+var users = new Users();
 
 /* Create express app */
 var express = require('express');
@@ -22,16 +24,31 @@ app.use(express.static(frontendFilesPath));
 io.on('connection', (socket) => {
     console.log('New user connected');
 
-
     /* Send a welcome message to the user who just connected */
     socket.emit('server:newMessage', generateMessage("Admin", "Welcome to our chat!!"));
 
 
-    /* Broadcast a message telling that user has connected to everyone else */
-    /* Broadcasting means emitting event to everybody
-       except for the user who sent it. except for this socket. */
-    socket.broadcast.emit('server:newMessage', generateMessage("Admin", "New user joined!"));
 
+    /* Join a room */
+    socket.on('join', (params, callback) => {
+	socket.join(params.channel);
+	//socket.leave(channel);
+	/* Acknowledge successfully joining */
+	users.removeUser(socket.id);
+	users.addUser(socket.id, params.username, params.channel);
+	console.log("User to add: ", params.username);
+	console.log("Got the join event, added user to Users. Users: ", users);
+
+	io.to(params.channel).emit('server:updateUserList', users.getUserList(params.room));
+
+	/* Broadcast a message telling that user has connected to everyone else */
+	/* Broadcasting means emitting event to everybody
+	   except for the user who sent it. except for this socket. */
+	socket.broadcast.to(params.channel).emit('server:newMessage', generateMessage("Admin", "New user joined!"));
+
+	
+	callback();
+    });
     /* listening to the event. Receivemessages from user. */
     /* once client sends me a message, I save it. */
     socket.on('client:createMessage', (message, callback) => {
@@ -47,6 +64,11 @@ io.on('connection', (socket) => {
     /* Disconnect */
     socket.on('disconnect', () => {
 	console.log('Client has disconnected');
+	var user = users.removeUser(socket.id);
+	if (user) {
+	    io.to(user.channel).emit('server:updateUserList',
+				  users.getUserList(user.channel));
+	}
     });
     
 });

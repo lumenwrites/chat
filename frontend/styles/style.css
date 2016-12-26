@@ -33,6 +33,12 @@ button {
     padding: 10px 20px;
 }
 
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+
 /* Header */
 .header {
     background: #2e3035;
