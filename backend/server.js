@@ -25,8 +25,10 @@ io.on('connection', (socket) => {
     console.log('New user connected');
 
     /* Send a welcome message to the user who just connected */
-    socket.emit('server:newMessage', generateMessage("Admin", "Welcome to our chat!!"));
-    /* Send userlist */
+    /* socket.emit('server:newMessage',
+       generateMessage("Admin", "Welcome to our chat!!"));*/
+    
+    /* Once user connected - send him a current userlist. */
     socket.emit('server:updateUserList',
 		users.getAllUsers());
 
@@ -34,25 +36,36 @@ io.on('connection', (socket) => {
 
     /* Join a room */
     socket.on('join', (params, callback) => {
+	/* Do the socket magic that allows to send messages only to people in the room */
 	socket.join(params.channel);
 	//socket.leave(channel);
-	/* Acknowledge successfully joining */
+
+	/* Make sure the user isn't already on this channel */
 	users.removeUser(socket.id);
+	/* Add user to the channel (to the users object) */
 	users.addUser(socket.id, params.username, params.channel);
-	console.log("User to add: ", params.username);
-	console.log("Got the join event, added user to Users. Users: ", users);
+	console.log(`${params.username} joined ${params.channel}`);
 
-	/* io.to(params.channel).emit('server:updateUserList', users.getUserList(params.room));*/
-	io.emit('server:updateUserList', users.getUserList(params.room));
 
-	/* Broadcast a message telling that user has connected to everyone else */
-	/* Broadcasting means emitting event to everybody
-	   except for the user who sent it. except for this socket. */
-	socket.broadcast.to(params.channel).emit('server:newMessage', generateMessage("Admin", "New user joined!"));
+	/* Emit an event to people in this room,
+	   telling them to update the list of users,
+	   and sending them the new user list. */
+	io.to(params.channel).emit('server:updateUserList',
+				   users.getUserList(params.channel));
+	/* Emit event to everybody: */
+	/* io.emit('server:updateUserList', users.getUserList(params.room));*/
+
+	/* Broadcast a message to everybody
+	   except for except for the user on this socket. */
+	socket.broadcast.to(params.channel)
+	      .emit('server:newMessage',
+		    generateMessage("Admin",
+				    `${params.username} has joined this channel!`));
 
 	
 	callback();
     });
+
     /* listening to the event. Receivemessages from user. */
     /* once client sends me a message, I save it. */
     socket.on('client:createMessage', (message, callback) => {
@@ -67,11 +80,11 @@ io.on('connection', (socket) => {
 
     /* Disconnect */
     socket.on('disconnect', () => {
-	console.log('Client has disconnected');
 	var user = users.removeUser(socket.id);
 	if (user) {
+	    console.log(`${user.username} has left ${user.channel}`);
 	    io.to(user.channel).emit('server:updateUserList',
-				  users.getUserList(user.channel));
+				     users.getUserList(user.channel));
 	}
     });
     

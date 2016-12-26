@@ -6,6 +6,7 @@ import { PageHeader, Panel, Label } from 'react-bootstrap';
 
 export default class Sidebar extends Component {
     renderUsers() {
+	/* Render list of users */
 	const users = this.props.users;
 	if (!users) {
 	    return (
@@ -23,6 +24,7 @@ export default class Sidebar extends Component {
 
 
     renderChannels() {
+	/* Render list of channels */
 	const channels = this.props.channels;
 	if (!channels) {
 	    return (
@@ -30,7 +32,7 @@ export default class Sidebar extends Component {
 	    );
 	};
 	return channels.map((channel) => {
-	    var link = "/#"+channel;
+	    var link = channel; /* .toLowerCase();*/
 	    return (
 		<li key={channel}>
 		    <Link to={link}>
