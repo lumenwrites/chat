@@ -57,11 +57,19 @@ export default class App extends Component {
 
     }
 
+
+    
     
     componentDidMount() {
 	socket.on('connect', () => {
 	    /* console.log(">>>> src/components/chat.js:");
 	       console.log('Connected to server');*/
+
+	    /* Join channel */
+  	    socket.emit('client:joinRoom', this.props.params.channel, (ackn)=>{
+		
+	    });
+	    
 	});
 	socket.on('disconnect', () => {
 	    /* console.log(">>>> src/components/chat.js:");
@@ -133,11 +141,14 @@ export default class App extends Component {
 	    <div className="mainWrapper">
 		<Sidebar users={this.state.users} channels={this.state.channels}/>
 		<div className="chat">
-		    <Header />
+		    <Header channel={this.props.params.channel} />
 		    <div className="messages" ref="messages">
 			{ this.renderMessages() }
 		    </div>		    
-		    <MessageBox socket = { socket } username={this.state.username} setUsername = {this.setUsername}/>
+		    <MessageBox socket = { socket }
+				username={this.state.username}
+				setUsername = {this.setUsername}
+				channel={this.props.params.channel}/>
 		</div>	    
 	    </div>
 	);

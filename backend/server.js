@@ -34,18 +34,21 @@ io.on('connection', (socket) => {
 
 
 
+
+    socket.on('client:joinRoom', (channel, callback) => {
+	/* Do the socket magic that allows to send messages only to people in the room */
+	socket.join(channel);
+	callback('Succesfully joined the channel ${channel}');
+	//socket.leave(channel);
+    });    
+
     /* Join a room */
     socket.on('join', (params, callback) => {
-	/* Do the socket magic that allows to send messages only to people in the room */
-	socket.join(params.channel);
-	//socket.leave(channel);
-
 	/* Make sure the user isn't already on this channel */
 	users.removeUser(socket.id);
 	/* Add user to the channel (to the users object) */
 	users.addUser(socket.id, params.username, params.channel);
 	console.log(`${params.username} joined ${params.channel}`);
-
 
 	/* Emit an event to people in this room,
 	   telling them to update the list of users,
@@ -75,7 +78,8 @@ io.on('connection', (socket) => {
 	/* Send out the received message to all the users. */
 	/* socket.emit emits a message to only one connection */
 	/* io.emit emits message to all the connections */
-	io.emit('server:newMessage', generateMessage(message.from, message.text));
+	io.to(message.channel).emit('server:newMessage',
+				    generateMessage(message.from, message.text));
     });
 
     /* Disconnect */

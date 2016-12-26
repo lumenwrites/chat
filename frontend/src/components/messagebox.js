@@ -10,7 +10,8 @@ export default class MessageBox extends Component {
 	/* Emit an event telling server to create message */
 	socket.emit(`client:createMessage`, {
 	    from: this.props.username,
-	    text: ReactDOM.findDOMNode(this.refs.message).value
+	    text: ReactDOM.findDOMNode(this.refs.message).value,
+	    channel: this.props.channel
 	});
 	this.refs.message.value="";	
     }
