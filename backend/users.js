@@ -47,6 +47,13 @@ class Users {
 	return user;
     }
 
+    getAllUsers() {
+	var namesArray = this.users.map((user) => {
+	    return user.username;
+	});
+	return namesArray;
+    }
+
     getUserList(channel) {
 	var users = this.users.filter((user)=>{
 	    /* return true to keep in the array and false to remove him */

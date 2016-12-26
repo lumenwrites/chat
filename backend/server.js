@@ -26,6 +26,9 @@ io.on('connection', (socket) => {
 
     /* Send a welcome message to the user who just connected */
     socket.emit('server:newMessage', generateMessage("Admin", "Welcome to our chat!!"));
+    /* Send userlist */
+    socket.emit('server:updateUserList',
+		users.getAllUsers());
 
 
 
@@ -39,7 +42,8 @@ io.on('connection', (socket) => {
 	console.log("User to add: ", params.username);
 	console.log("Got the join event, added user to Users. Users: ", users);
 
-	io.to(params.channel).emit('server:updateUserList', users.getUserList(params.room));
+	/* io.to(params.channel).emit('server:updateUserList', users.getUserList(params.room));*/
+	io.emit('server:updateUserList', users.getUserList(params.room));
 
 	/* Broadcast a message telling that user has connected to everyone else */
 	/* Broadcasting means emitting event to everybody
