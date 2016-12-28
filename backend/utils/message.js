@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-var generateMessage = (author, text) => {
+var generateMessage = (author, body) => {
     return {
 	author,
 	body,

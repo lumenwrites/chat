@@ -1,5 +1,9 @@
-# Django react chat
+# Node/React Chat
 
+This is a simple chat application built with Node, Mongo, Express, and React.
+
+
+<!-- 
 # Pull from dockerhub and run
 
 # Build and run
@@ -11,3 +15,4 @@ git clone
 npm install
 cd backend
 npm start
+-->
