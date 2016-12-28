@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { PageHeader, Panel, Label } from 'react-bootstrap';
-
+import { browserHistory } from 'react-router';
 
 export default class Sidebar extends Component {
     renderUsers() {
@@ -23,6 +23,11 @@ export default class Sidebar extends Component {
     }
 
 
+    goToChannel(channel) {
+	browserHistory.push(channel);	
+	this.props.joinChannel(channel);
+    }
+    
     renderChannels() {
 	/* Render list of channels */
 	const channels = this.props.channels;
@@ -34,10 +39,10 @@ export default class Sidebar extends Component {
 	return channels.map((channel) => {
 	    var link = channel; /* .toLowerCase();*/
 	    return (
-		<li key={channel}>
-		    <Link to={link}>
+		<li key={channel} >
+		    <a onClick={() => this.goToChannel(channel)}>
 			{channel}
-		    </Link>
+		    </a>
 			
 		</li>
 	    )

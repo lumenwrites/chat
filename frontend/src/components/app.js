@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { browserHistory } from 'react-router';
 
 import moment from 'moment';
 
@@ -19,6 +20,7 @@ import io from 'socket.io-client';
 let socket = io(`http://localhost:3000`);
 
 
+
 export default class App extends Component {
     constructor(props) {
 	super(props);
@@ -28,17 +30,18 @@ export default class App extends Component {
 	    users: [],
 	    messages:[],	    
 	    channels:["General",
-		   "Startups",
-		   "Webdev",
-		   "Rationality",
-		   "AskHC",
-		   "ShowHC",
-		   "Science",
-		   "Design",
-		   "Marketing"]	    
+		      "Startups",
+		      "Webdev",
+		      "Rationality",
+		      "AskHC",
+		      "ShowHC",
+		      "Science",
+		      "Design",
+		      "Marketing"]	    
 	};
 
 	this.setUsername = this.setUsername.bind(this);
+	this.joinChannel = this.joinChannel.bind(this);	
     }
 
 
@@ -64,18 +67,16 @@ export default class App extends Component {
 	socket.on('connect', () => {
 	    /* console.log(">>>> src/components/chat.js:");
 	       console.log('Connected to server');*/
-
-	    /* Join channel */
-  	    socket.emit('client:joinRoom', this.props.params.channel, (ackn)=>{
-		
-	    });
-	    
+	    /* Taking channel from the url parsed by router */
+	    this.joinChannel(this.props.params.channel);
 	});
+
+
+	
 	socket.on('disconnect', () => {
 	    /* console.log(">>>> src/components/chat.js:");
 	       console.log('Disconnected from server');*/
 	});
-
 
 	/* Receive new message, add it to the state */
 	socket.on(`server:newMessage`, data => {
@@ -83,8 +84,8 @@ export default class App extends Component {
 	    this.setState({
 		messages: this.state.messages.concat([data])
 	    });
-	    /* console.log(">>>> src/components/chat.js:");
-	       console.log('Message received from server and added to state', data);*/
+	    console.log(">>>> src/components/chat.js:");
+	    console.log('Message received from server and added to state', data);
 	    this.scrollToBottom();
 	})
 
@@ -96,6 +97,21 @@ export default class App extends Component {
 	});
     }
 
+    joinChannel(channel) {
+	if (!channel) {
+	    var channel = "General";
+	}
+	/* Join channel */
+	/* Server will make the socket join the channel I'm passing */
+	/* And return all the messages from this channel as an acknowledgement. */
+  	socket.emit('client:joinRoom', channel, (messages)=>{
+	    console.log(messages);
+	    this.setState({
+		messages: messages
+	    });
+	});
+    }
+    
     scrollToBottom() {
 	var messages = ReactDOM.findDOMNode(this.refs.messages);
 	var clientHeight = messages.clientHeight;
@@ -123,8 +139,8 @@ export default class App extends Component {
 	    return (
 		<div key={message.createdAt}>
 		    <span className="right">{formattedDate}</span>		    
-		    <b> {message.from} </b> <br/>
-		    {message.text}
+		    <b> {message.author} </b> <br/>
+		    {message.body}
 		    <hr/>
 		</div>
 	    )
@@ -139,7 +155,9 @@ export default class App extends Component {
 
 	return (
 	    <div className="mainWrapper">
-		<Sidebar users={this.state.users} channels={this.state.channels}/>
+		<Sidebar users={this.state.users}
+			 channels={this.state.channels}
+			 joinChannel={this.joinChannel}/>
 		<div className="chat">
 		    <Header channel={this.props.params.channel} />
 		    <div className="messages" ref="messages">

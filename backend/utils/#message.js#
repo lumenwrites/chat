@@ -1,9 +1,9 @@
 const moment = require('moment');
 
-var generateMessage = (author, text) => {
+var generateMessage = (from, text) => {
     return {
-	author,
-	body,
+	from,
+	text,
 	createdAt: moment().valueOf()
     }
 };
