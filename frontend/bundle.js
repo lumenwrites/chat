@@ -27435,7 +27435,7 @@
 /* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -27475,9 +27475,9 @@
 
 	var _messagebox2 = _interopRequireDefault(_messagebox);
 
-	var _socket = __webpack_require__(631);
+	var _socket3 = __webpack_require__(631);
 
-	var _socket2 = _interopRequireDefault(_socket);
+	var _socket4 = _interopRequireDefault(_socket3);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27498,7 +27498,11 @@
 	/* to emit and receive events */
 
 
-	var socket = (0, _socket2.default)('http://localhost:3000');
+	if (process.env.DB_PORT) {
+		var _socket = (0, _socket4.default)('http://hackertribe.io:3000');
+	} else {
+		var _socket2 = (0, _socket4.default)('http://localhost:3000');
+	}
 
 	var App = function (_Component) {
 		_inherits(App, _Component);
@@ -27677,6 +27681,7 @@
 	}(_react.Component);
 
 	exports.default = App;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
 /* 264 */

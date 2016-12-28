@@ -17,8 +17,12 @@ import MessageBox from './messagebox';
 /* These two lines automatically connect to the server, allowing me */
 /* to emit and receive events */
 import io from 'socket.io-client';
-let socket = io(`http://localhost:3000`);
 
+if ( process.env.DB_PORT ) {
+    let socket = io(`http://hackertribe.io:3000`);    
+} else {
+    let socket = io(`http://localhost:3000`);
+}
 
 
 export default class App extends Component {
