@@ -3,7 +3,16 @@ version: '2'
 services:
   backend:
     build: .
+    links:
+      - db
     ports:
       - "3000:3000"
     # volumes:
-    #   - ./app:/app
+      #   - ./app:/app
+    environment:
+      DB_PORT: 27017  
+  db:
+    image: mongo
+    # ports:
+    #   - "27017:27017"
+    command: "--smallfiles --logpath=/dev/null"    

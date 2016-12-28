@@ -5,6 +5,25 @@ import { PageHeader, Panel, Label } from 'react-bootstrap';
 import { browserHistory } from 'react-router';
 
 export default class Sidebar extends Component {
+
+    renderUsername() {
+	const username = this.props.username;
+
+	if (!username) {
+	    return (
+		<div></div>
+	    );
+	};
+
+	return (
+	    <div>
+		<b>@{username}</b>
+	    </div>
+	);
+    }
+
+    
+
     renderUsers() {
 	/* Render list of users */
 	const users = this.props.users;
@@ -24,7 +43,7 @@ export default class Sidebar extends Component {
 
 
     goToChannel(channel) {
-	browserHistory.push(channel);	
+	browserHistory.push(channel);
 	this.props.joinChannel(channel);
     }
     
@@ -53,6 +72,7 @@ export default class Sidebar extends Component {
     render() {
 	return (
 	    <div className="sidebar">
+		{this.renderUsername()}		
 		Channels:
 		<ul>
 		    {this.renderChannels()}

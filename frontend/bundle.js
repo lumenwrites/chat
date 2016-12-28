@@ -27451,6 +27451,8 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _reactRouter = __webpack_require__(200);
+
 	var _moment = __webpack_require__(264);
 
 	var _moment2 = _interopRequireDefault(_moment);
@@ -27515,6 +27517,7 @@
 			};
 
 			_this.setUsername = _this.setUsername.bind(_this);
+			_this.joinChannel = _this.joinChannel.bind(_this);
 			return _this;
 		}
 
@@ -27543,10 +27546,10 @@
 				socket.on('connect', function () {
 					/* console.log(">>>> src/components/chat.js:");
 	       console.log('Connected to server');*/
-
-					/* Join channel */
-					socket.emit('client:joinRoom', _this3.props.params.channel, function (ackn) {});
+					/* Taking channel from the url parsed by router */
+					_this3.joinChannel(_this3.props.params.channel);
 				});
+
 				socket.on('disconnect', function () {
 					/* console.log(">>>> src/components/chat.js:");
 	       console.log('Disconnected from server');*/
@@ -27558,8 +27561,8 @@
 					_this3.setState({
 						messages: _this3.state.messages.concat([data])
 					});
-					/* console.log(">>>> src/components/chat.js:");
-	       console.log('Message received from server and added to state', data);*/
+					console.log(">>>> src/components/chat.js:");
+					console.log('Message received from server and added to state', data);
 					_this3.scrollToBottom();
 				});
 
@@ -27570,15 +27573,33 @@
 				});
 			}
 		}, {
+			key: 'joinChannel',
+			value: function joinChannel(channel) {
+				var _this4 = this;
+
+				if (!channel) {
+					var channel = "General";
+				}
+				/* Join channel */
+				/* Server will make the socket join the channel I'm passing */
+				/* And return all the messages from this channel as an acknowledgement. */
+				socket.emit('client:joinRoom', channel, function (messages) {
+					console.log(messages);
+					_this4.setState({
+						messages: messages
+					});
+				});
+			}
+		}, {
 			key: 'scrollToBottom',
 			value: function scrollToBottom() {
 				var messages = _reactDom2.default.findDOMNode(this.refs.messages);
 				var clientHeight = messages.clientHeight;
 				var scrollTop = messages.scrollTop;
 				var scrollHeight = messages.scrollHeight;
-				var messageHeight = 43;
+				var messageHeight = 44;
 				if (clientHeight + scrollTop + messageHeight + messageHeight >= scrollHeight) {
-					/* console.log('should scroll');*/
+					console.log('should scroll');
 					messages.scrollTop = scrollHeight;
 				}
 			}
@@ -27610,12 +27631,12 @@
 							'b',
 							null,
 							' ',
-							message.from,
+							message.author,
 							' '
 						),
 						' ',
 						_react2.default.createElement('br', null),
-						message.text,
+						message.body,
 						_react2.default.createElement('hr', null)
 					);
 				});
@@ -27630,7 +27651,10 @@
 				return _react2.default.createElement(
 					'div',
 					{ className: 'mainWrapper' },
-					_react2.default.createElement(_sidebar2.default, { users: this.state.users, channels: this.state.channels }),
+					_react2.default.createElement(_sidebar2.default, { username: this.state.username,
+						users: this.state.users,
+						channels: this.state.channels,
+						joinChannel: this.joinChannel }),
 					_react2.default.createElement(
 						'div',
 						{ className: 'chat' },
@@ -61278,6 +61302,26 @@
 		}
 
 		_createClass(Sidebar, [{
+			key: 'renderUsername',
+			value: function renderUsername() {
+				var username = this.props.username;
+
+				if (!username) {
+					return _react2.default.createElement('div', null);
+				};
+
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'b',
+						null,
+						'@',
+						username
+					)
+				);
+			}
+		}, {
 			key: 'renderUsers',
 			value: function renderUsers() {
 				/* Render list of users */
@@ -61298,8 +61342,16 @@
 				});
 			}
 		}, {
+			key: 'goToChannel',
+			value: function goToChannel(channel) {
+				_reactRouter.browserHistory.push(channel);
+				this.props.joinChannel(channel);
+			}
+		}, {
 			key: 'renderChannels',
 			value: function renderChannels() {
+				var _this2 = this;
+
 				/* Render list of channels */
 				var channels = this.props.channels;
 				if (!channels) {
@@ -61315,8 +61367,10 @@
 						'li',
 						{ key: channel },
 						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: link },
+							'a',
+							{ onClick: function onClick() {
+									return _this2.goToChannel(channel);
+								} },
 							channel
 						)
 					);
@@ -61328,6 +61382,7 @@
 				return _react2.default.createElement(
 					'div',
 					{ className: 'sidebar' },
+					this.renderUsername(),
 					'Channels:',
 					_react2.default.createElement(
 						'ul',
@@ -61726,8 +61781,10 @@
 				/* Emit an event telling server to create message */
 				socket.emit('client:createMessage', {
 					from: this.props.username,
-					text: _reactDom2.default.findDOMNode(this.refs.message).value,
+					body: _reactDom2.default.findDOMNode(this.refs.message).value,
 					channel: this.props.channel
+				}, function (ackn) {
+					console.log(ackn);
 				});
 				this.refs.message.value = "";
 			}

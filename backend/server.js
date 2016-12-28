@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const moment = require('moment');
+const util = require('util');
 
 const {generateMessage} = require('./utils/message');
 const {Users} = require('./users');
@@ -27,19 +28,36 @@ var server = http.createServer(app);
 const io = socketIO(server);
 
 /* Configure middleware to serve frontend static files */
-/* Not needed, because I'm going to serve frontend separately.
+/* Not needed, because I'm going to serve frontend separately. */
 const path = require('path');
-const frontendFilesPath = path.join(__dirname, '../frontend');
-app.use(express.static(frontendFilesPath));
-*/
+const staticFiles = path.join(__dirname, '../frontend');
+app.use('/static', express.static(staticFiles));
+
+app.use((req, res) => res.sendFile(staticFiles+'/index.html'));
 
 
 /* Mongoose config */
 mongoose.Promise = global.Promise;
 /* Connecting to mongo. */
-mongoose.connect('mongodb://localhost:27017/chat');
+/* Default local mongoDB url */
+var MONGO_DB_URL = 'mongodb://localhost:27017/chat'
+/* For Docker */
+if ( process.env.DB_PORT ) {
+    /* If there's a DB_PORT variable, then we're in Docker
+       (I've set it in docker-compose) */
+    /* and so I'm changing mongo url to this: */
+    /* mongodb: is mongo's protocol, */
+    /* db is the name of the container that runs mongo */
+    MONGO_DB_URL = util.format('mongodb://db:%s/chat', process.env.DB_PORT);
+}
+/* Conncetiong to mongoose to mongo */
+mongoose.connect(MONGO_DB_URL);
+
 /* Message model */
 const Message = require('./models/message');
+
+
+
 
 io.on('connection', (socket) => {
     console.log('New user connected');

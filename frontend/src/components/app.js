@@ -117,9 +117,9 @@ export default class App extends Component {
 	var clientHeight = messages.clientHeight;
 	var scrollTop = messages.scrollTop;
 	var scrollHeight = messages.scrollHeight;	
-	var messageHeight = 43;
+	var messageHeight = 44;
 	if (clientHeight + scrollTop + messageHeight + messageHeight >= scrollHeight) {
-	    /* console.log('should scroll');*/
+	    console.log('should scroll');
 	    messages.scrollTop = scrollHeight;
 	}
     };
@@ -155,7 +155,8 @@ export default class App extends Component {
 
 	return (
 	    <div className="mainWrapper">
-		<Sidebar users={this.state.users}
+		<Sidebar username={this.state.username}
+			 users={this.state.users}
 			 channels={this.state.channels}
 			 joinChannel={this.joinChannel}/>
 		<div className="chat">
