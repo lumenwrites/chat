@@ -19,9 +19,9 @@ import MessageBox from './messagebox';
 import io from 'socket.io-client';
 
 if ( true ) {
-    let socket = io(`http://hackertribe.io:3000`);    
+    var socket = io(`http://hackertribe.io:3000`);    
 } else {
-    let socket = io(`http://localhost:3000`);
+    var socket = io(`http://localhost:3000`);
 }
 
 

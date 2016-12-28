@@ -27475,9 +27475,9 @@
 
 	var _messagebox2 = _interopRequireDefault(_messagebox);
 
-	var _socket3 = __webpack_require__(631);
+	var _socket = __webpack_require__(631);
 
-	var _socket4 = _interopRequireDefault(_socket3);
+	var _socket2 = _interopRequireDefault(_socket);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27499,9 +27499,9 @@
 
 
 	if (true) {
-		var _socket = (0, _socket4.default)('http://hackertribe.io:3000');
+		var socket = (0, _socket2.default)('http://hackertribe.io:3000');
 	} else {
-		var _socket2 = (0, _socket4.default)('http://localhost:3000');
+		var socket = (0, _socket2.default)('http://localhost:3000');
 	}
 
 	var App = function (_Component) {
