@@ -27435,7 +27435,7 @@
 /* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -27498,7 +27498,7 @@
 	/* to emit and receive events */
 
 
-	if (process.env.DB_PORT) {
+	if (true) {
 		var _socket = (0, _socket4.default)('http://hackertribe.io:3000');
 	} else {
 		var _socket2 = (0, _socket4.default)('http://localhost:3000');
@@ -27681,7 +27681,6 @@
 	}(_react.Component);
 
 	exports.default = App;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
 /* 264 */

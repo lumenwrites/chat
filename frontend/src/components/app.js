@@ -18,7 +18,7 @@ import MessageBox from './messagebox';
 /* to emit and receive events */
 import io from 'socket.io-client';
 
-if ( process.env.DB_PORT ) {
+if ( true ) {
     let socket = io(`http://hackertribe.io:3000`);    
 } else {
     let socket = io(`http://localhost:3000`);
