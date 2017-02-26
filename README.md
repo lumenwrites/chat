@@ -1,6 +1,6 @@
 # Node/React Chat
 
-This is a simple chat application built with Node, Mongo, Express, React and socket.io.
+This is a simple chat application built with Node, Mongo, Express, React and socket.io. Check out the demo [here](http://chat.hackertribe.io/).
 
 ![](https://raw.githubusercontent.com/raymestalez/chat/master/assets/screenshot.png)
 
