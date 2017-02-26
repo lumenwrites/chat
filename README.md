@@ -2,7 +2,7 @@
 
 This is a simple chat application built with Node, Mongo, Express, React and socket.io.
 
-![]()
+![](https://raw.githubusercontent.com/raymestalez/chat/master/assets/screenshot.png)
 
 To run it, just clone the repo and run:
 
