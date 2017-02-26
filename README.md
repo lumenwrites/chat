@@ -2,6 +2,11 @@
 
 This is a simple chat application built with Node, Mongo, Express, React and socket.io.
 
+![]()
+
+To run it, just clone the repo and run:
+
+	docker-compose up
 
 <!-- 
 # Pull from dockerhub and run
