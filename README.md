@@ -8,6 +8,8 @@ To run it, just clone the repo and run:
 
 	docker-compose up
 
+Check out more of my projects at [rayalez.com](http://rayalez.com)
+
 <!-- 
 # Pull from dockerhub and run
 
